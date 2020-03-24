@@ -77,10 +77,10 @@
 	é o mais utilizada no mercado atual. Bancos NoSQL são bastante livres e
 	são pouco estruturados.
 
-	Nessa aplicação utiliaremos banco de dados SQLite, algo simples armazenado
+	Nessa aplicação utilizaremos banco de dados SQLite, algo simples armazenado
 	na própria aplicação como um arquivo do tipo .sqite.
 	
-	Para uma manipulação mais simples do banco de dados utilizarmeos um o
+	Para uma manipulação mais simples do banco de dados utilizaremos um
 	QueryBuilder Knex(http://knexjs.org/):
 
 		npm install knex
@@ -104,7 +104,7 @@
 	- Alterar o script "dev" em package.json.
 	- routes.js importa o Express e exporta const routes = express.Router().
 	- index.js importa a const exportada por routes.js e dá um app.use(routes).
-	- Filename, no modo desenvolvimento knexfile para './src/database/db.sqlite'.
+	- filename, no modo desenvolvimento knexfile para './src/database/db.sqlite'.
 
 *** ESTRUTURA DO PROJETO ***
 
@@ -151,6 +151,23 @@
 				http://knexjs.org/#Schema-createTable
 			};
 
+		criar tabela: npx knex migrate:latest
+		
+	- Criando tabela para entidade Incidents:
+		npx knex migrate:make create_incidents
+
+		Um arquivo será gerado na pasta migrations, a tabela deve ser criada a
+		partir do método:
+			exports.up = function(knex) {
+				http://knexjs.org/#Schema-createTable
+			};
+
+		Criar uma coluna para indicar qual é a ONG responsável pelo cadastro do
+		incidente. A coluna deve ser do mesmo tipo da primary key de ongs:
+
+			table.string('ong_id').notNullable();
+        	table.foreign('ong_id').references('id').inTable('ongs');  // fk ongs
+
+		criar tabela: npx knex migrate:latest
+		
 *** CRIANDO TABELAS NO BANCO DE DADOS ***
-
-
