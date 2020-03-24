@@ -171,3 +171,7 @@
 		criar tabela: npx knex migrate:latest
 		
 *** CRIANDO TABELAS NO BANCO DE DADOS ***
+
+Conexão com o Banco de Dados através do arquivo /src/database/connection.js
+Organizando aplicação, criando pasta controller e arquivo OngController.js
+Lógica para inserir/listar ongs no arquivo OngController.js
