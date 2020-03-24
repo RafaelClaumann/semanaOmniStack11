@@ -1,0 +1,156 @@
+----------------------------------------------------------
+----------------## @@@ SEGUNDA AULA @@@ ##----------------
+----------------------------------------------------------
+
+*** METODOS HTTP, REQUISIÇÕES & ROTAS ***
+
+	Métodos HTTP:
+		app.get()  // HTTP GET
+			Listar informações do backend.
+		app.post() // HTTP POST
+			Criar uma informação no backend.
+		app.put()  // HTTP PUT
+			Alterar uma informação no backend.
+		app.delete()  // HTTP DELETE
+			Deletar uma informação do backend.
+
+	Quando uma rota é criada precisamos informar o caminho desta rota, por
+	exemplo na função app.get('/', ...), a rota sera localhost:porta/
+
+	Geralmente o que vem depois da '/' é um recurso, app.get('/users', ...).
+	Users é o recurso que queremos acessar, ele geralmente esta associado a uma
+	tabela do banco de dados ou algum recurso fornecido pela aplicação.
+
+	Tipos de Parâmetros para uma rota:
+		Query Params: Parametros nomeados enviados na rota após o simbolo de '?'.
+			/products?nome=geladeira
+			/products?page=2&nome=geladeira
+
+		Route Params: Parâmetros utilizados para identificar recursos.
+			/products/:id
+
+		Request Body:
+			Corpo da requisição, utilizado para criar ou alterar recursos. Um
+			RequestBody não precisa conter todas as propriedades do objeto que
+			sera alterado mas sim as propriedades que serão modificadas.
+
+				usuario {
+					nome: "rafael"
+					email: "rafael@email.com"
+					endereço: "endereço,cep,numero"
+				}
+
+			RequestBody para alterar apenas o nome:
+				{
+					nome:"bernardes"
+				}
+
+			Acessar os Query Params => request.query
+			Acessar os Route Params => request.params
+			Acessar o RequestBody => request.body
+
+			OBS request.body:
+				É preciso informar para o Express que estamos utilizando
+				o formato JSON nas requisições. Antes da requisição o express
+				converte o JSON do RequestBody em objeto javascript.
+
+				app.use(express.json());
+
+*** METODOS HTTP, REQUISIÇÕES & ROTAS ***
+
+*** NODEMON ***
+
+	Nodemon monitora os arquivos e reinicia o servidor quando algo é alterado.
+		
+		npm install nodemon -D		// devDependencies
+		"dev": "nodemon index.js"	// package.json
+		npm run dev					// testando
+
+*** NODEMON ***
+
+*** BANCO DE DADOS ***
+
+	SQL: MySQL, SQLite, postgreSQL, Oracle, Microsoft SQL Server
+	NoSQL: MongoDB, couchDB...
+	
+	Banco de dados SQL permite um controle maior sobre a estrutura de tabelas e
+	é o mais utilizada no mercado atual. Bancos NoSQL são bastante livres e
+	são pouco estruturados.
+
+	Nessa aplicação utiliaremos banco de dados SQLite, algo simples armazenado
+	na própria aplicação como um arquivo do tipo .sqite.
+	
+	Para uma manipulação mais simples do banco de dados utilizarmeos um o
+	QueryBuilder Knex(http://knexjs.org/):
+
+		npm install knex
+		npm install sqlite3
+		npx knex init			#arquivo de cfg do knex na raiz do projeto
+
+*** BANCO DE DADOS ***
+
+*** ESTRUTURA DO PROJETO ***
+
+	Projeto deve ficar com a seguinte estrutura:
+		./
+        └── src
+			└── index.js
+			└── routes.js
+			└── database
+				└── db.sqlite
+		knexfile.js
+		package.json
+
+	- Alterar o script "dev" em package.json.
+	- routes.js importa o Express e exporta const routes = express.Router().
+	- index.js importa a const exportada por routes.js e dá um app.use(routes).
+	- Filename, no modo desenvolvimento knexfile para './src/database/db.sqlite'.
+
+*** ESTRUTURA DO PROJETO ***
+
+*** ENTIDADES E FUNCIONALIDADES ***
+
+	Entidades:
+		- ONG
+		- Incident
+
+	Funcionalidades:
+		- Login ONG						- Logout ONG
+		- Cadastrar ONG					- Cadastras novos casos
+		- Deletar casos					- Listar casos especificos de uma ONG
+		- Listar todos os casos			- Contato com a ONG
+
+*** ENTIDADES E FUNCIONALIDADES ***
+
+*** CRIANDO TABELAS NO BANCO DE DADOS ***
+
+	Tabelas serão criadas com Migrations(http://knexjs.org/#Migrations).
+	Migrations: As migrações permitem que você defina conjuntos de alterações
+	de esquema, portanto é fácil atualizar um banco de dados.
+
+	- Criar pasta 'migrations' dentro de 'database'.
+	- Em knexfile.js, dentro da configuração development após connection:
+		  ...
+		  	},
+		  	migrations: {
+				  directory: './src/database/migrations
+			},
+			useNullAsDefault: true
+		  ...
+
+			useNullAsDefault evita o seguinte warning:
+		  		"sqlite does not support inserting default values. Set the
+				`useNullAsDefault` flag to hide this warning."
+
+	- Criando tabela para entidade ONGS:
+		npx knex migrate:make create_ongs
+
+		Um arquivo será gerado na pasta migrations, a tabela deve ser criada a
+		partir do método:
+			exports.up = function(knex) {
+				http://knexjs.org/#Schema-createTable
+			};
+
+*** CRIANDO TABELAS NO BANCO DE DADOS ***
+
+
