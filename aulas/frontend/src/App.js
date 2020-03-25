@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header, { HeaderProps, HeaderPropsChild, HeaderPropsDesest } from './Header';
 
 // criando Header em App.js
@@ -35,6 +35,23 @@ export function App4() {
     <HeaderPropsChild>
       Header Component, Properties e Children.
     </HeaderPropsChild>
+  );
+}
+
+export function Counter() {
+  // let counter = 0;
+  const [counter, setCounter] = useState(0);
+
+  function increment() {
+    //counter++;
+    setCounter(counter + 1);
+  }
+
+  return (
+    <div>
+      <HeaderPropsChild>Contador:{counter}</HeaderPropsChild>
+      <button onClick={increment}>Incrementar</button>
+    </div>
   );
 }
 

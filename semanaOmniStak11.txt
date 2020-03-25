@@ -350,3 +350,22 @@ Lógica para inserir/listar ongs no arquivo OngController.js
 		
 		- Importar App.js em index.js
 		- Renderizar utilizando ReactDom.render();
+	
+6 - Estado...
+
+		Seja uma informação(variavel, listagem etc) armazenada em um componente, não
+		podemos modifica-la de maneira convencional, por exemplo:
+				counter = counter + 1
+				counter++
+				etc.
+		no React, precisamos utilizar o conceito de Estado para modificar informaçoes.
+		"Sempre que o estado for alterado o componente é renderizado novamente,
+		exibindo as novas informações em tela."
+
+	imutabilidade: por uma questão de performance não podemos alterar o valor do
+	estado de um forma direta, o valor deve ser sobreposto.
+
+			useState() => retorna um array [valorVariavel, funcaoAtualização]
+			const [counter, seCounter] = useState(0);
+
+	
