@@ -175,3 +175,105 @@
 Conexão com o Banco de Dados através do arquivo /src/database/connection.js
 Organizando aplicação, criando pasta controller e arquivo OngController.js
 Lógica para inserir/listar ongs no arquivo OngController.js
+
+***
+	Inserir/Deletar um Incident: {
+
+		- É preciso estar 'autenticado' como uma ONG, isso é feito obtendo o id da
+		ONG no header da requisição.
+
+		- Criar uma requisição no Insomnia, dentro da requisão editar o header:
+			New header: Authorization	New value: ong_id
+	
+		- Buscar o id da ONG no header:
+			const ong_id = req.headers.authorization;
+
+	}
+
+	Deletar um Incidente: {
+		
+		- Verificar se o incidente pertence a ONG autenticada.
+		- Buscar incidente baseado no RouteParam chamado id.
+		- Selecionar coluna ong_id do incidente no Banco de Dados.
+		- Verificar se ong_id do BD corresponde a ong_ind do header.
+
+			iguais => deletar e responder com status code 204.
+			diferentes => retornar resposta  com status code 401 e nao deletar.
+	}
+***
+
+***
+	Listar casos especificos de uma ONG:
+
+		Poderiamos criar um método no controller de incidents para listar os
+		casos especificos de uma ONG mas se tivermos duas listagens em uma 
+		mesma entidade é legal que criemos um novo controller para lidar com
+		estas listagens extras.
+
+		Criar um ProfileController.js
+			- Buscar ong_id no header da requisição.
+			- Buscar os incidents baseados no ong_id do banco de dados.
+			- Listar os casos recuperados.
+***
+
+***
+	Login na aplicação:
+		A rota de login nada mais é do que uma rota que irá verificar se a ONG existe
+		ou não.
+
+	Criar SessionController.js e uma função create(req, res)
+		- pegar id no body da requisição.
+		- buscar uma ONG no BD e retornar seu nome.
+		- se !ong_name => retorna status 400.
+		- retorna json(ong_name).
+
+	Criar rota post '/sessions' com a função create.
+		- routes.post('/session', sessionController.create);
+***
+
+***
+	Para realizar paginação dos incidentes (quebrar a quantidade de registros
+	mostrados por pagina) e retornar os dados da ONG junto ao incidente vamos
+	alterar o método index em IncidentController.js
+
+	1 - Obter o QueryParam chamado page, caso não exista use page = 1:
+			const {page = 1} = request.query;
+	
+	2 - Configurar a consulta ao BD:
+
+		Realizar join com a tabela ongs:
+			.join('ongs', 'ongs.id', '=', 'incidents.ong_id') 
+
+		Configurar a paginação:
+			.limit(5)  // retorna um numero máximo incidents.
+			.offset((page - 1) * 5)  // pulando registros, buscando de n em n.
+
+		Coluna id tem o mesmo nome nas tabelas 'ongs' e 'incidents'. Quando o
+		join é realizado, o id de 'ongs' sobrepoe o id de 'incidents' mas queremos
+		retornar o id de 'incidents', então alteramos a projeção das informaçoes:
+			.select(
+				[
+				'incidents.*',
+				'ongs.name',
+				'ongs.email',
+				'ongs.whatsapp',
+				'ongs.city',
+				'ongs.uf'
+				]
+			);
+
+		Uma boa prática é passar para o FrontEnd o total de registos no BD, esse
+		valor é enviado através do header da resposta:
+			const [count] = await connection('incidents').count();  // retorna um array
+			console.log(count);  // {'count(*)': 14}
+			res.header('X-Total-Count', count['count(*)']);  // response header
+***
+
+***
+	Modulo de segurança cors:
+		npm install cors
+
+	Determina quem pode acessar nossa aplicação.
+	Importar o cors no index.js, depois de declarar o app:
+		app.use(cors());
+***
