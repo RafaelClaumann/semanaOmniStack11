@@ -495,3 +495,32 @@ Lógica para inserir/listar ongs no arquivo OngController.js
 				Diferenças: <a> => <Link> e href => to
 
 	}
+
+9 - Conectando ao BackEnd (registrando ONG):
+	{
+		Iniciar o servidor backend aulas/backaend:
+			npm run dev
+
+		Instalar o cliente HTTP axios no FRONTEND:
+			npm install axios
+
+		- Criar pasta chamada services em src e criar um arquivo api.js
+		- Importar api.js em register/index.js
+			Api exporta uma constante do axios com um baseURL definido.
+		- Criar a função HandleRegister(e) dentro da função Register() em index.js
+		- Parametro e => evento padrao do formulario.
+		- Açao no formulario, onSubmit={handleRegister}
+		- e.preventDefault() para nao recarregar a página inteiro ao submeter.
+		- Criando estado para valores do formulario, Dentro de Register() porém
+		fora de handleRegister criar constantes de estado para armazenar os valores
+		de entrada.
+			const [name, setName] = useState(''); // '' texto começa vazio.
+
+		- Em cada component HTML passar a variavel de estado como value e a função
+		de atualização na propriedade onChange.
+			<input
+				placeholder="Nome da ONG"
+				value={name}
+				onChange={e => setName(e.target.value)}
+		/>
+	}
