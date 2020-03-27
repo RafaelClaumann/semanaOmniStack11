@@ -368,4 +368,130 @@ Lógica para inserir/listar ongs no arquivo OngController.js
 			useState() => retorna um array [valorVariavel, funcaoAtualização]
 			const [counter, seCounter] = useState(0);
 
-	
+7 - Pagina de login
+	{
+		- Criar uma pasta para armazenar as paginas e cada pagina vai ter
+			sua pasta especifica.
+		
+		- Copiar as imagens heros e logo para ./src/assets.
+
+		./
+			└── public
+					└── favicon.ico
+					└── index.html
+			└── src
+					└── assets
+							└── heroes.png
+							└── logo.svg
+					└── pages
+							└── logon
+								└── index.js
+								└── style.css
+					app.js
+					global.css
+					index.js
+			.gitignore
+			package-lock.json
+			package.json
+			yarn.lock
+
+		7.1 Estilos globais:
+			{
+				A arquivo global.css estiliza componentes que se repetem em diferentes
+				páginas. Por exemplo, a fonte utilizada em nosso site é global e todas as
+				páginas devem usa-la.
+
+					Utilizar a fonte roboto:
+						https://fonts.google.com/?selection.family=Roboto
+					
+					Importa-la em global.css:
+						@import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap');
+
+					Colocando a fonte nos componentes html:
+						input, button, textarea {
+							font: 400 18px Roboto, sans-serif;
+						}
+
+				7.1.1 Classe de estilos:
+					{
+						global.css:
+							.button { transition: filter 0.2s; }	
+							.button:hover { filter: brightness(90%); }
+							filter & transition escurecem o button quando o mouse passa sobre ele.
+					}
+			}
+
+		7.2 Pacote de Icones:
+				{
+					Instalar o pacote de icones via npm:
+						npm install react-icons
+
+					Importar react-icons em /logon/index.js:
+						import {FiLogIn} from 'react-icons/fi'  // https://feathericons.com/
+
+					Utilizar icone especifico criar cadastro:
+						<FiLogIn size={16} color="#E02041" />
+				}
+
+		7.3 Estilizando JSX com CSS:
+			{
+				logon/index.js:
+					<div className="logon-container">
+						<section className="form">
+							<form>
+								<h1></h1>
+								<button className="button" type="submit"></button>
+								<FiLogIn size={16} color="#E02041" />
+							</form>
+						</section>
+					</div>	
+
+				longon/style.css:
+					.logon-container {}  // estiliza <div className="logon-container">
+					.logon-containter section.form {}  // estiliza <section className="form">
+					.logon-container section.form form {}  // estiliza <div> => <section> => <form>
+					.logon-container section.form form h1 {}  // estiliza <div> => <section> => <form> => <h1> 
+
+					7.2.1 class ou className em arquivo JSX:
+						{
+							Importando classe .button de global.css em /longon/index.js:
+							<button className="button" type="submit">Entrar</button>
+
+							No React usamos className="button" ao inves de class="button" como é
+							no HTML, isso acontece porque class é uma palavra reservada dentro
+							do javascript.
+						}
+					
+					7.2.2
+						{
+							Icones do pacote react-icons são sempre chamados de svg então para
+							estilizar o icone importado, basta fazer:
+								
+								.logon-container section.form form a svg {
+									margin-right: 8px;
+								}
+						}
+			}
+	}
+
+8 - Configurando Rotas
+	{
+		"As rotas também são componentes, por isso precisamos exporta-las."
+		"<BroweserRouter> precisa envolver os itens do retorno na rota."
+		"<Switch> garante que apenas um rota seja executada por vez."
+		
+		Instalar o pacote react-router-dom:
+			npm install react-router-dom
+		
+		Criar arquivo routes.js em src.
+			- importar react, componentes do react-router-dom e logon.
+			- exportar uma funçao Routes().
+			- importar Routes em App.js
+		
+		logon/index.js:
+			import {Link} from 'react-router-dom'
+				Este import serve para substituir os links <a> do HTML que
+				recarregam a página inteira.
+				Diferenças: <a> => <Link> e href => to
+
+	}
