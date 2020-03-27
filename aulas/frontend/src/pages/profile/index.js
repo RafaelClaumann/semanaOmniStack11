@@ -5,11 +5,11 @@ import { FiPower, FiTrash2 } from 'react-icons/fi';
 import './styles.css';
 
 export default function Profile() {
+    const ongName = localStorage.getItem('ongName');
     return (
         <div className="profile-container">
             <header>
-                <img src={logoImg} alt="Be The Hero" />
-                <span>Bem vinda, APAD</span>
+                <span>Bem vinda, ${ongName}</span>
                 <Link to="/incidents/new" className="button">Cadastrar novos casos</Link>
                 <button type="button">
                     <FiPower size={18} coloar="#e02041" />

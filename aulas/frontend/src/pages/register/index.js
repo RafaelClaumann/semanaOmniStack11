@@ -19,7 +19,7 @@ export default function Register() {
         try {
             const response = await api.post('ongs', data);
             alert(`Seu ID de acesso é ${response.data.id}`);
-            history.push('/');  // redireciona usurio para home do site
+            history.push('/');  // redireciona usurio para home
         } catch (error) {
             alert('Erro no cadastro, tente novamente!')
         }

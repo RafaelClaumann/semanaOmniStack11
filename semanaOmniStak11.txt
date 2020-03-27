@@ -524,3 +524,15 @@ Lógica para inserir/listar ongs no arquivo OngController.js
 				onChange={e => setName(e.target.value)}
 		/>
 	}
+
+10 - Logon
+	{
+		OngId e ongName precisam estar disponiveis para qul ong está logada,
+		por isso vamos salver estes dados no local storage /logon/index.js:
+			localStorage.setItem('ongId', id);
+    		localStorage.setItem('ongName', response.data.name);
+
+		Colocando nome da ong no cabeçalho de profile page, /profile/index.js:
+			const ongName = localStorage.getItem('ongName');
+			<img src={logoImg} alt="Be The Hero" />
+	}
