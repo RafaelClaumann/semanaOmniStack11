@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import logoImg from '../../assets/logo.svg';
 import { FiPower, FiTrash2 } from 'react-icons/fi';
 import './styles.css';
@@ -9,11 +9,16 @@ export default function Profile() {
     const [incidents, setIncidents] = useState([]);
     const ongName = localStorage.getItem('ongName');
     const ongId = localStorage.getItem('ongId');
+    const history = useHistory();
     useEffect(() => {
-        api.get('profile', { headers: { Authorization: ongId } })
+        api
+            .get('/profile',
+                {
+                    headers: { Authorization: ongId }
+                })
             .then(response => {
                 setIncidents(response.data);
-            })
+            });
     }, [ongId]);
 
     async function handleDeleteIncident(id) {
@@ -29,13 +34,19 @@ export default function Profile() {
         }
     }
 
+    function handleLogout() {
+        console.log(incidents);
+        localStorage.clear();
+        history.push('/');
+    }
+
     return (
         <div className="profile-container">
             <header>
                 <img src={logoImg} alt="Be The Hero" />
                 <span>Bem vinda, {ongName}</span>
                 <Link to="/incidents/new" className="button">Cadastrar novos casos</Link>
-                <button type="button">
+                <button onClick={handleLogout} type="button">
                     <FiPower size={18} coloar="#e02041" />
                 </button>
             </header>
@@ -51,8 +62,8 @@ export default function Profile() {
 
                         <strong>VALOR:</strong>
                         <p>
-                            {Intl.
-                                NumberFormat('pt-BR', {
+                            {Intl
+                                .NumberFormat('pt-BR', {
                                     style: 'currency',
                                     currency: 'BRL'
                                 })
