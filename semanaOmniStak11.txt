@@ -649,4 +649,34 @@ Lógica para inserir/listar ongs no arquivo OngController.js
 	- Substituir icon.png e splash.png da pasta assets.
 	- Alterar o background da splashScreen em app.json para '#E02041'.
 
+7 - Navegacao/Rotas da aplicação:
+	{
+		A documentação do Expo pede a instação da reac-native navigation.
+
+		https://docs.expo.io/versions/v35.0.0/guides/routing-and-navigation/#__next
+		https://reactnavigation.org/docs/getting-started
+
+		Instalando react-navigation:
+			npm install @react-navigation/native
+			expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context @react-native-community/masked-view
+		
+		Vamos usar o stack navigator (https://reactnavigation.org/docs/hello-react-navigation):
+			npm install @react-navigation/stack
+
+		Criar arquivo routes.js dentro de src:
+			</NavigationContainer>
+				Envolve as rotas, é obrigatorio.
+
+			<AppStack.Navigator screenOptions={{ headerShown: false }}>
+				Desabilita o cabeçalho padrão da aplicação.
+
+			<AppStack.Screen name="Incidents" component={Incidents}>
+				Representa uma rota, component representa uma página criada,
+				name não é usado diretamente mas serve para determinar
+				automaticamente o nome do cabeçalho da aplicação.
+		
+		Importar route.js em App.js:
+			retornar <Routes/>  em App();
+	}
+
 		
