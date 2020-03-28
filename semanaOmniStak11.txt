@@ -612,3 +612,41 @@ Lógica para inserir/listar ongs no arquivo OngController.js
 		Aplicando um filter no array e retornando apenas os incidents cuja condição
 		é satisfeita, ou seja, todos que tem o id diferente do que sera deletado:
 			setIncidents(incidents.filter(incident => incident.id !== id));
+
+----------------------------------------------------------
+---------------## @@@ QUARTA AULA @@@ ##------------------
+----------------------------------------------------------
+
+1 - Instalar o Expo globalmente, dentro da pasta aulas, executar:
+		npm install -g expo-cli
+
+2 - Iniciar o projeto, dentro da pasta aulas, executar:
+		expo init mobile
+	
+3 - Escolheer a opção:
+		expo-template-blank
+	
+4 - Acessar http://localhost:19002/ e escanear o QRcode no app Expo do celular.
+
+5 - Observações:
+	Em HTML tags como <h1> <p> <storn> possuem diferentes semanticas enquanto
+	no react-native estes elemento possuem a mesma semantica.
+
+	Exemplos:
+		No react-native <text> é <text> não existe <h1> <h2> <p> etc..
+		<view> usada para div, container, section, header, footer.
+		<text> usada para h1, p, strong, etc.
+
+	Estilização:
+		- As estilizações sao feitas por uma tag chamada style e pela classe
+			StyleSheet e seu método create().
+		- Os elementos do react-native possuem display flex por padrçao.
+		- Propriedades como background-color são camelCase => BackgroundColor.
+		- Valores nao numéricos precisam estar entre aspas.
+
+6 - Icone e splash screen:
+
+	- Substituir icon.png e splash.png da pasta assets.
+	- Alterar o background da splashScreen em app.json para '#E02041'.
+
+		
