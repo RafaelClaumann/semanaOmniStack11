@@ -10,6 +10,7 @@ export default function Profile() {
     const ongName = localStorage.getItem('ongName');
     const ongId = localStorage.getItem('ongId');
     const history = useHistory();
+
     useEffect(() => {
         api
             .get('/profile',
@@ -69,7 +70,6 @@ export default function Profile() {
                                 })
                                 .format(incident.value)}
                         </p>
-
                         <button onClick={() => handleDeleteIncident(incident.id)} type="button">
                             <FiTrash2 size={20} color="#a8a8b3" />
                         </button>

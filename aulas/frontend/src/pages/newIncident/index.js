@@ -21,7 +21,6 @@ export default function NewIncident() {
         } catch (error) {
             alert('Erro ao cadastrar caso, tente novamente!');
         }
-
     }
 
     return (

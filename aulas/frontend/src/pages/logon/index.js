@@ -9,7 +9,7 @@ import api from '../../services/api';
 export default function Logon() {
     const [id, setID] = useState('');
     const history = useHistory();
-
+    
     async function handleLogin(e) {
         e.preventDefault();
         try {
@@ -26,7 +26,6 @@ export default function Logon() {
         <div className="logon-container">
             <section className="form">
                 <img src={logoImg} alt="Be The Hero" />
-
                 <form onSubmit={handleLogin}>
                     <h1>Faça seu logon</h1>
                     <input
@@ -35,13 +34,11 @@ export default function Logon() {
                         onChange={e => setID(e.target.value)}
                     />
                     <button className="button" type="submit">Entrar</button>
-
                     <Link className="back-link" to="/register">
                         <FiLogIn size={16} color="#E02041" />
                         Não Tenho Cadastro
                     </Link>
                 </form>
-
             </section>
             <img src={heoresImg} alt="Heroes" />
         </div>

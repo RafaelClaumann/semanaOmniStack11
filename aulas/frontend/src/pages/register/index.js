@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import './styles.css';
 import logoImg from '../../assets/logo.svg';
 import { Link, useHistory } from 'react-router-dom';
-import { FiArrowLeft } from 'react-icons/fi'
-import api from '../../services/api'
+import { FiArrowLeft } from 'react-icons/fi';
+import api from '../../services/api';
 
 export default function Register() {
     const [name, setName] = useState('');
@@ -21,7 +21,7 @@ export default function Register() {
             alert(`Seu ID de acesso é ${response.data.id}`);
             history.push('/');  // redireciona usurio para home
         } catch (error) {
-            alert('Erro no cadastro, tente novamente!')
+            alert('Erro no cadastro, tente novamente!');
         }
     }
 
