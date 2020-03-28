@@ -536,3 +536,79 @@ Lógica para inserir/listar ongs no arquivo OngController.js
 			const ongName = localStorage.getItem('ongName');
 			<img src={logoImg} alt="Be The Hero" />
 	}
+
+11 - Profile
+	{
+		Quando a página /profile é aberta os casos devem ser renderizados auto-
+		maticamente, sem precisar da ação do usuario.
+
+		Importar useEffect do react, useEffet dispara uma função em determinado
+		momento do componente, por exemplo, assim que ele é mostrado em tela.
+		
+		useEffect(() => {}, []);
+			() => {} é a função que sera executada.
+			[] array de dependencias, ou seja, se alguma informação dentro do array
+			for modificada a função () => {} é disparada. Por exemplo, [ongName]
+			se ongName for modificado a função será executada. O array vazio signi-
+			fica que a função sera executada uma vez.
+
+			É recomendado que se usada em useEffect a variavel deve ser colocada
+			no array de dependencias.
+
+			Listando os casos de uma ong especifica deve-se informar o ongID 
+			através do header da requisição.
+
+			useEffect(() => {
+        		api.get('profile', { headers: { Authorization: ongId } })
+        		.then(response => {
+            	setIncidents(response.data);
+        		})
+    		}, [ongId]);
+			
+		Ao realizar iterações (map, foreach) dentro do react é importante
+		setar uma key dentro de cada objeto renderizado, isso vai ajudar o
+		react a encontrar os itens quando forem modificados.
+			...
+			<ul>
+                {incidents.map(incident => (
+                    <li key={incident.id}>
+						<strong>CASO:</strong>
+                        <p>{incident.title}</p>
+					<li>
+				))}
+			</ul>
+			...
+
+		Iniciando array de incidents vazio:		
+			const [incidents, setIncidents] = useState([]);
+
+		Formatando valores com classe global Intl:
+			Intl.NumberFormat(
+				'pt-BR',
+				{ style: 'currency', currency: 'BRL' })
+ 				.format(incident.value)
+	}
+
+12 - Deletando caso:
+
+	Criar função handleDeleteIncident(). Para deletar um incidente é necessario 
+	estar 'logado' como a ONG detentora do incidente, por isso é preciso
+	passar o ongId como Authorization no header da requisição além do ID do caso
+	a ser apagado:
+		await api.delete(`incidents/${id}`, { headers: { Authorization: ongId }});  
+
+	Maneira errada, passando retorno da função para onClick:
+		<button onClick={handleDeleteIncident(incident.id)} type="button">
+
+	Maneira correta, pasando a função para onClick:
+		<button onClick={() => handleDeleteIncident(incident.id)} type="button">
+
+13 - Atualizando interface após deleter incidente:
+	
+		Existem duas maneiras:
+			Recarrega todos os dados da API, ou seja, trazer a lista atualizada.
+			Varrer array de incidentes e procurar o ID e remover ele do array.
+
+		Aplicando um filter no array e retornando apenas os incidents cuja condição
+		é satisfeita, ou seja, todos que tem o id diferente do que sera deletado:
+			setIncidents(incidents.filter(incident => incident.id !== id));
