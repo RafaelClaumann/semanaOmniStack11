@@ -679,4 +679,68 @@ Lógica para inserir/listar ongs no arquivo OngController.js
 			retornar <Routes/>  em App();
 	}
 
-		
+8 - Estilizando Incidents:
+	{
+		Criar uma pasta chamada assets dentro de src e copiar logo.png nos
+		tres tamanhos para assets.
+
+		(index.js):
+		Importar a logo, não é preciso importar os tres tamanhos de logo, a
+		importação sera feita de acordo com o formato da tela:
+			import logoImg from '../../assets/logo.png';
+
+		(styles.js):
+		Importar 'expo-constants' para que a logo nao fique abaixo do statusbar.
+		Instalando:
+			expo install expo-constants
+		Importando:
+			import Constants from 'expo-constants';
+		Utilizando:
+			paddingTop: Constants.statusBarHeight + 20
+
+		Botão ver mais detalhes:
+			{
+
+				import { TouchableOpacity } from 'react-native';
+					Torna qualquer coisa clicavel e diminui a opacidade do
+					que foi clicado.
+
+				import { Feather } from '@expo/vector-icons';
+					Pacote de icones, vem instalado junto ao Expo.
+
+				<TouchableOpacity
+					style={styles.detailsButton}
+					onPress={() => { }}>
+					<Text style={styles.detailsButtonText}>Ver mais detalhes</Text>
+					<Feather name="arrow-right" size={16} color="#E02041" ></Feather>
+				</TouchableOpacity>
+			}
+
+		Renderizando lista de casos:
+			{
+				Para exibir a lista de casos vamos uilizar o componente FlatList:
+				<FlatList
+					data={[1, 2, 3, 4]}
+					style={styles.incidentsList}
+					keyExtractor={incident => String(incident)}
+					showsVerticalScrollIndicator={false}
+					renderItem={() => (
+						<View>
+							<Text>Item1</Text>
+						</View>
+					)}
+				/>
+
+				renderItem={() => ()}
+					Função responsavel por renderizar os itens da lista, ela
+					retorna um código JSX, por isso usa-se () e não {} no retorno.
+			
+				keyExtractor={incident => String(incident)}
+					Evitar o warning sobre possuir uma key para cada entrada
+					na lista.
+
+				showsVerticalScrollIndicator={false}
+					Remover a barra de navegação lateral.
+			}
+	}
+	
