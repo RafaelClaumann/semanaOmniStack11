@@ -745,24 +745,47 @@ Lógica para inserir/listar ongs no arquivo OngController.js
 			}
 	}
 	
-	Link ver mais detalhes:
+9 - Detalhes dos Incidents:
+	{
+		(/incidents/index.js), navegar ate detalhes de incidents:
+		{
+			import { useNavigation } from '@react-navigation/native';
 		
-		import { useNavigation } from '@react-navigation/native';
+			const navigation = useNavigation();
+			function navigateToDetail() {
+				navigation.navigate('Detail');  // Detail de routes.js
+			}
 
+			<TouchableOpacity
+            	...
+            	onPress={navigateToDetail}>
+				...
+			</TouchableOpacity>
+		}
 
-		const navigation = useNavigation();
+		(/detail/index.js), Retornar para a página anterior:
+		{
+			import { useNavigation } from '@react-navigation/native';
 
-		//mesmo nome Detail da rota de routes.js
-		function navigateToDetail() {
-    		navigation.navigate('Detail');
-    	}
+			const navigation = useNavigation();
+			function navigateBack() {
+				navigation.goBack();
+			}
 
-		<TouchableOpacity
-            ...
-            onPress={navigateToDetail}>
-			...
-		</TouchableOpacity>
+			<TouchableOpacity onPress={navigateBack}>
+                <Feather name="arrow-left" size={28} color="#e02041"></Feather>
+            </TouchableOpacity>
+		}
+	}
 
+10- Link whatsapp e email:
+	{
+		Instalar um pacote do expo para escrever emails:
+			expo install expo-mail-composer
+	
+		Importar o MailComposer:
+			import * as MailComposer from 'expo-mail-composer';
 
-	Detalhes do caso:
-		
+		Criar duas funções em /details/index.js:
+			sendmail() e sendWhatsapp()
+	}
