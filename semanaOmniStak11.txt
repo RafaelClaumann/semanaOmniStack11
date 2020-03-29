@@ -778,7 +778,7 @@ Lógica para inserir/listar ongs no arquivo OngController.js
 		}
 	}
 
-10- Link whatsapp e email:
+10 - Link whatsapp e email:
 	{
 		Instalar um pacote do expo para escrever emails:
 			expo install expo-mail-composer
@@ -788,4 +788,51 @@ Lógica para inserir/listar ongs no arquivo OngController.js
 
 		Criar duas funções em /details/index.js:
 			sendmail() e sendWhatsapp()
+	}
+
+11 - Conectando ao BD:
+	{
+		- Instalar a dependencia do axios, npm install axios
+		- Criar pasta services dentro de src e criar arquivo api.js.
+		- Utilizar o ip fornecido pelo Expo no localhost como baseURL.
+		- Obter os dados da mesma maneira feita no frontEnd, criando estados e 
+			funções para altera-los.
+		- useEffect do 'react' é utilizada para renderizar informaçoes na tela,
+			assim como é feito no frontend.
+
+			{
+				import React, { useState, useEffect } from 'react';
+
+				const [incidents, setIncidents] = useState([]);
+				const [totalIncidents, setTotalIncidents] = useState(0);
+
+				useEffect(() => {
+					api.get('incidents')
+						.then(response => {
+							setIncidents(response.data);
+							setTotalIncidents(response.headers['x-total-count']);
+						});
+				}, []);
+			}
+		Diferente do frontend, no android é preciso instalar a a dependencia Intl
+		para formatar os valores, npm install intl
+	}
+	
+12 - Passando informaçoes entre telas:
+	{
+		(incidents/index.js)
+			A função a seguir envia um objeto incident para a tela Detail quando
+			o botão é clicado:
+				<TouchableOpacity
+					...
+				onPress={() => navigation.navigate('Detail', {incident})}>
+				...
+				</TouchableOpacity>
+
+		(/detail/index.js)
+			Importar useRoute de '@react-navigation/native', essa importação
+			serve para pegar as informaçoes de parametro passadas para a tela Detail.
+
+			Obtendo o objeto incident passado para Detail:
+				const incident = route.params.incident
 	}
