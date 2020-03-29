@@ -836,3 +836,11 @@ Lógica para inserir/listar ongs no arquivo OngController.js
 			Obtendo o objeto incident passado para Detail:
 				const incident = route.params.incident
 	}
+
+13 - Paginação infinita:
+	{
+
+		criar dois estados:
+			const [page, setPage] = useState(1);
+    		const [loading, setLoading] = useState(false);
+	}
