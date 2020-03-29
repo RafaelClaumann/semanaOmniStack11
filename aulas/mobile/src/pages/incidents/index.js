@@ -3,8 +3,15 @@ import { View, FlatList, Image, Text, TouchableOpacity } from 'react-native';
 import { Feather } from '@expo/vector-icons';  // Father icons
 import logoImg from '../../assets/logo.png';
 import styles from './styles';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Incidents() {
+    const navigation = useNavigation();
+
+    function navigateToDetail() {
+        navigation.navigate('Detail');
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -31,7 +38,7 @@ export default function Incidents() {
                         <Text style={styles.incidentValue}>R$ 120,00</Text>
                         <TouchableOpacity
                             style={styles.detailsButton}
-                            onPress={() => { }}>
+                            onPress={navigateToDetail}>
                             <Text style={styles.detailsButtonText}>Ver mais detalhes</Text>
                             <Feather name="arrow-right" size={16} color="#E02041" ></Feather>
                         </TouchableOpacity>

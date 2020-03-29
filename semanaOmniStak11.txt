@@ -737,10 +737,32 @@ Lógica para inserir/listar ongs no arquivo OngController.js
 			
 				keyExtractor={incident => String(incident)}
 					Evitar o warning sobre possuir uma key para cada entrada
-					na lista.
+					na lista. No react-native precisamos que seja uma string
+					por isso passamos o constructor String em volta.
 
 				showsVerticalScrollIndicator={false}
 					Remover a barra de navegação lateral.
 			}
 	}
 	
+	Link ver mais detalhes:
+		
+		import { useNavigation } from '@react-navigation/native';
+
+
+		const navigation = useNavigation();
+
+		//mesmo nome Detail da rota de routes.js
+		function navigateToDetail() {
+    		navigation.navigate('Detail');
+    	}
+
+		<TouchableOpacity
+            ...
+            onPress={navigateToDetail}>
+			...
+		</TouchableOpacity>
+
+
+	Detalhes do caso:
+		
