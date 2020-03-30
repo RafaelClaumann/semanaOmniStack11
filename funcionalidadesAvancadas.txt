@@ -1,0 +1,80 @@
+1 - Validações no backend:
+    {
+        Usar a biblioteca Celebrate para realizar validaçoes, por baixo
+        dos panos a biblioteca Celebrate utiliza outra biblioteca chamada Joi
+        para validação javascript. O Celebrate integra o joi com o 
+        express.
+
+        Celebrate: https://github.com/arb/celebrate
+        Joi: https://github.com/hapijs/joi
+
+        Instalar o Celebrate:
+            npm install celebrate
+
+        O correto é criar uma pasta só para os validators da aplicação mas por
+        enquanto a validação ser feita em routes.js mesmo.
+
+        Rotas que geralmente recebem validação:
+            - rotas de criação 
+            - rotas de alteração
+
+        1.1 Fazendo validação em ongs:
+            {
+                (routes.js):
+                const {celebrate, Segments, Joi} = require('celebrate');
+
+                // precisamos que a validacao ocorra antes da criação
+                // dentro do celebrate podemos validar parametros como
+                // QueryParams, RouteParams e BodyRequest.
+                // Segments(tipos de segmentos da requisição).
+                routes.post('/ongs', celebrate({
+                    [Segments.BODY]: Joi.objetct().keys({
+                        name: Joi.string().required(),
+                        email: Joi.string().required().email(),
+                        whatsapp: Joi.string().required(),
+                        city: Joi.string().required(),
+                        uf: Joi.string().required().length(2)
+                    })
+                }), ongController.create);
+
+                Testando a validação:
+                    executar o servidor e testar a rota.
+            }
+        
+            1.1.1 Validando cabeçalho:
+                {
+                    routes.get('/profile', celebrate({
+                        [Segments.HEADER]: Joi.objetct({
+                            Authorization: Joi.string().required()
+                        }).unknown(),
+                    }), ProfileController.index);
+                }
+
+            1.1.2 Validando RouteParam:
+                {
+                    routes.get('incidents/:id', celebrate({
+                        [Segments.PARAMS]: Joi.object().keys({
+                            id: joi.string.required()
+                        })
+                    }), IncidentController.delete);
+
+
+                }
+            1.1.3 Validando QueryParam
+                {
+                    routes.get('/incidents', celebrate({
+                        [Segments.QUERY]: Joi.object().keys({
+                            page: Joi.number()
+                        })
+                    }), IncidentController.index);
+                }
+            
+        1.2 Evitar erros codigo 500:
+            {
+                Em index.js importar errors de celebrate:
+                    import {errors} from 'celebrate'
+
+                Depois das routes, utilizar o errors:
+                    app.use(errors()) 
+            }
+    }
