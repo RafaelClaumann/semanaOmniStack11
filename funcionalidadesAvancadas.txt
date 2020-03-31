@@ -78,3 +78,84 @@
                     app.use(errors()) 
             }
     }
+
+2 - Testes Automatizados
+    {
+        UnityTests: Testa partes isoladas da aplicação, uma função etc.
+        IntegrationTests: Testa uma funcionalidade por inteiro, backend&frontend&mobile.
+
+        2.1 Estrutura de Pastas
+            {
+                ./
+                └── src
+                    └── utils
+                └── tests
+                    └── unit
+                    └── integration
+            }
+
+        2.2 Instalando Framework de Testes
+            {
+                Instalar o framework jest:
+                npm intall jest -D
+
+                Executar o comando & seguir as opçoes de instalaçao:
+                    npx jest --init
+
+                    Opçoes de instalaçao:
+                        Jest when running "test" script in "package.json"?
+                            - YES, adicionar script de teses em package.json.
+
+                        Choose the test environment that will be used for testing.
+                            - NODE, executar os testes no ambiente do nodeJS.
+
+                        Do you want Jest to add coverage reports?
+                            - NO, sera explicado adiante.
+
+                        Automatically clear mock calls and instances between every test?
+                            - YES, tudo que foi definido em um teste é invalida
+                              para outro teste.
+            }
+        
+        2.4 Criando Arquivos e Testando
+            {
+                Criar arquivo generateUniqueId.js em /src/utils para ilustrar
+                os testesunitarios. Copiar a função que gera ID das ongs de
+                ongController.js para generateUniqueId.js e exporta-la.
+
+                (generateUniqueId.js)
+                {
+                    const crypto = require('crypto');
+
+                    module.exports = function generateUniqueId() {
+                        return crypto.randomBytes(4).toString('HEX');
+                    }
+                }
+            
+            Atualizar ongController.js importando a função generateUniqueId()
+            de generateUniqueId.js.
+
+                (ongController.js)
+                {
+                    const generateUniqueId = require('../utils/generateUniqueId');
+
+                    const id = generateUniqueId();
+                }
+
+            Criar arquivo de teste dentro de /tests/unit:
+            https://jestjs.io/docs/en/expect
+
+            (generateUniqueId.spec.js)
+                {
+                    const generateUniqueId =  require('') // importar função generateUniqueId:
+
+                    describe('Generate Unique ID',
+                        () =>{
+                            it('should generate an Unique Id',
+                                () ={
+                                    expect(id).toHaveLength(8);
+                                });
+                        }
+                    );
+                }
+    }

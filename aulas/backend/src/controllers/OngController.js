@@ -1,4 +1,4 @@
-const crypto = require('crypto');
+const generateUniqueId = require('../utils/generateUniqueId');
 const connection = require('../database/connection');
 
 module.exports = {
@@ -8,7 +8,7 @@ module.exports = {
     },
 
     async create(req, res) {
-        const id = crypto.randomBytes(4).toString('HEX');  // gerar ID unico p/ ong
+        const id = generateUniqueId();  // gerar ID unico p/ ong
         const { name, email, whatsapp, city, uf } = req.body;  // desestruturaçao
         await connection('ongs').insert({
             id,
