@@ -117,7 +117,7 @@
                               para outro teste.
             }
         
-        2.4 Criando Arquivos e Testando
+        2.3 Criando Arquivos e Testando
             {
                 Criar arquivo generateUniqueId.js em /src/utils para ilustrar
                 os testesunitarios. Copiar a função que gera ID das ongs de
@@ -159,3 +159,146 @@
                     );
                 }
     }
+
+1 - Criando Banco de Dados para Testes:
+    {
+        Criar uma nova conexão para o bando de testes em knexfile.js
+            {
+                test: {
+                    client: 'sqlite3',
+                        connection: {
+                            filename: './src/database/test.sqlite'
+                    },
+                    migrations: {
+                        directory: './src/database/migrations'
+                    },
+                    useNullAsDefault: true
+                }
+            }
+
+        Ambiente de testes:
+            {
+                Dentro de /database/connection.js utilizamos conexão de development
+                por padrão:
+                        const connection = knex(configuration.development);
+                mas precisamos de uma conexão diferente para o ambiente de testes.
+                Isto é feito instalando o pacote cross-env.
+
+                Instalando pacote cross-env:
+                    npm install cross-env
+        
+                Alterar script de test em package.json:
+                    "test":"cross-env NODE_ENV=test jest"
+                    
+                    https://blog.rocketseat.com.br/variaveis-ambiente-nodejs/
+                    Quando o script de teste é executado a variavel ambiente
+                    NODE_ENV fica disponivel, as variaveis ambiente do nodeJS
+                    são acessiveis através da variavel global process.env.
+        
+                Acessando variavel NODE_ENV em (connection.js):
+                    opção 1:
+                        const config;
+                        if (NODE_ENV === 'test') {
+                              config = configurarion.test
+                        } else {
+                            config = configurarion.development
+                        }
+
+                        const connection = config;
+                        
+                    opção 2:
+                        const config =
+                            process.env.NODE_ENV === 'test'
+                                ? configurarion.test
+                                    : configurarion.development;
+                            
+                        const connection = config;
+            }
+
+        Primeiro teste de integração:
+            {
+                ./
+                └── src
+                └── tests
+                    └── unit
+                    └── integration
+
+                Criar arquivo (ong.spec.js) dentro da pasta integration.
+                    {
+                        describe('ONG',() =>{
+                            it('should be able to create a new ong' , () => {});
+                        });
+
+                        Como fazer esse teste? importar o controller da ong?
+                        esperar seu retorno? não!
+                        A biblioteca supertest é usada para realizar estes testes,
+                        além das requisições HTTP essa biblioteca ainda traz
+                        algumas validações a mais no retorno da API.
+                        
+                        Instalar a biblioteca:
+                            npm install supertest -D
+                        
+                        Importar a biblioteca:
+                            const request = require('supertest')
+                    }
+            
+                Para realizar os testes é preciso subir o servidor de testes, então
+                é necessario importar index.js em ong.spec.js para que isso seja 
+                possivel. Se index.js for importado e executado dentro de ong.spec.js
+                o servidor de desenvolvimento estara disponivel e não é isso que
+                queremos, queremos apenas o servidor de testes.
+            
+                Para resolver:
+                    - Trocar o nome de index.js por app.js.
+                        Substituir de app.listen(3333) por module.exports = app;
+
+                    - Dentro de src criar server.js.
+                        const app = require('./app);
+                        app.listen(3333);
+
+                    - Alterar script dev em package.json:
+                        "dev": "nodemon ./src/server.js"
+                
+                Voltando a ong.spec.js:
+                    {
+                        Importar app.js e connection:
+                            const request = require('supertest');
+                            const app = require('./app');
+                            const connection = require('../../src/database/connection);
+                        
+                        Função de testes:
+                            // limpar banco de dados antes de cada teste.
+                            beforeEach( async () => {
+                                await connection.migrate.rollback()
+                                await connection.migrate.latest()
+                            });
+
+                            // desfazer a conexão após os testes.
+                            afterAll(async () => {
+                                await connection.destroy();
+                            });
+
+                            it('should be able to create new ong' , async () => {
+                                const response =
+                                    await request(app)
+                                    .post('/ongs')
+                                    .send({
+                                        name:"apad",
+                                        email:"email@email.com",
+                                        whatsapp:"48000000000",
+                                        city:"floripa",
+                                        uf:"sc"                            
+                                    });
+                                expect(response.body).toHaveProperty('id');
+                                expect(response.body.id).toHaveLength(8);
+                            });
+
+                        Passando header de autorização na chamada:
+                            ...
+                            .post('/ongs')
+                            .set('Authorization', 'ongID)
+                            .send({
+                            ...                        
+                    }
+    }     
+}
