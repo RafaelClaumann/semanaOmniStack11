@@ -6,7 +6,8 @@ module.exports = {
             [Segments.BODY]: Joi.object().keys({
                 title: Joi.string().required(),
                 description: Joi.string().required(),
-                value: Joi.number()
+                value: Joi.number(),
+                ong_id: Joi.string().length(8)
             })
         });
     },
