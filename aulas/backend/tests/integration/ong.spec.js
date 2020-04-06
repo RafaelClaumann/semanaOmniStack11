@@ -3,7 +3,7 @@ const app = require('../../src/app');
 const connection = require('../../src/database/connection');
 
 describe('ONG', () => {
-    beforeEach(async () => {
+    beforeAll(async () => {
         await connection.migrate.rollback();  // reset tables on DB
         await connection.migrate.latest();  // create tables on DB
     });

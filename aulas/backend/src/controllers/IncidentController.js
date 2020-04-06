@@ -30,8 +30,8 @@ module.exports = {
             description,
             value,
             ong_id
-        });
-        return res.json({ id });
+        }).returning('id');
+        return res.json(id);
     },
 
     async delete(req, res) {
